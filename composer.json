@@ -1,0 +1,13 @@
+{
+  "autoload": {
+    "psr-0": {
+      "MyApp": "src"
+    }
+  },
+  "require": {
+    "cboden/ratchet": "0.3.*",
+    "react/zmq": "0.2.*|0.3.*",
+    "nmred/kafka-php": "0.2.*",
+    "monolog/monolog": "1.11.0"
+  }
+}

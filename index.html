@@ -1,0 +1,255 @@
+<script src="autobahn.js"></script>
+<html>
+<head>
+
+    <title>Apche Kafka Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta name="Description"
+          content="How to create Simple Add To Cart System Using jQuery,Ajax And PHP On TalkersCode.com">
+    <meta name="Keywords"
+          content="jquery ecommerce product display ,how to make a shopping cart ,simple php cart ,how to create a shopping cart ,lightweight shopping cart php ,create shopping cart ,source code shopping cart php ,simple shopping cart example in php ,html shopping cart ,php source code for shopping cart ,shopping cart jquery ,php cart ,jquery shopping cart plugin ,shopping cart plugin ,shopping cart js ,shopping cart php ,php shopping cart example ,jquery shopping cart example ,shopping cart code in php ,shopping cart php tutorial ,php shopping cart ,how to add product in shopping cart in php ,shopping cart in html source code ,cart php ,building a shopping cart in php ,shopping cart php code ,php shopping cart tutorial using sessions ,shopping cart example php ,drag and drop shopping cart jquery ,how to make shopping cart in php ">
+    <meta property="og:image" content="http://talkerscode.com/webtricks/images/cart_system.jpg"/>
+
+    <style>
+        #bigad_display {
+            width: 728px;
+            margin-bottom: 20px;
+        }
+
+        #middlead_display {
+            clear: both;
+            margin-top: 20px;
+            margin-left: 10px;
+            text-align: center;
+            float: left;
+        }
+
+        #feedburner_div {
+            float: left;
+            margin-left: 20px;
+            box-sizing: border-box;
+            background-color: #084B8A;
+            text-align: center;
+            padding: 20px;
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        #feedburner_div * {
+            font-family: "Myriad Pro", "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+        }
+
+        #feedburner_div .feed_head {
+            color: white;
+            font-size: 25px;
+        }
+
+        #feedburner_div input[type="text"] {
+            margin-top: 10px;
+            width: 250px;
+            height: 50px;
+            padding-left: 10px;
+            border: none;
+            font-size: 15px;
+            background-color: #0B3861;
+            color: white;
+        }
+
+        #feedburner_div input[type="submit"] {
+            margin-top: 10px;
+            width: 250px;
+            height: 45px;
+            background-color: #0080FF;
+            border: none;
+            border-bottom: 3px solid #045FB4;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        #smallad_display {
+            float: left;
+            margin-left: 20px;
+            margin-top: 20px;
+            width: 300px;
+            height: 250px;
+        }
+    </style>
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+
+    </script>
+    <style>
+        body {
+            background-color: #E6E6E6;
+            font-family: helvetica;
+            margin: 0px auto;
+            padding: 0px;
+        }
+
+        #wrapper {
+            width: 995px;
+            margin: 0 auto;
+            padding: 0px;
+        }
+
+        #cart_button {
+            margin-top: 20px;
+            margin-left: 80px;
+            cursor: pointer;
+        }
+
+        #cart_button img {
+            width: 40px;
+            height: 40px;
+        }
+
+        #cart_button input[type="button"] {
+            background: none;
+            border: none;
+            background-color: red;
+            border-radius: 100%;
+            height: 30px;
+            width: 30px;
+            margin-top: 0px;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        #mycart {
+            display: none;
+            background-color: white;
+            width: 800px;
+            margin-left: 100px;
+
+        }
+
+        #mycart .cart_items {
+            border-bottom: 1px dashed silver;
+            padding: 20px;
+            padding-left: 10px;
+        }
+
+        #mycart .cart_items img {
+            width: 70px;
+            height: 50px;
+            float: left;
+        }
+
+        #mycart .cart_items p {
+            margin: 0px;
+            font-size: 17px;
+            color: green;
+        }
+
+        h1 {
+            color: green;
+            text-align: center;
+        }
+
+        #item_div {
+            float: left;
+            margin-left: 60px;
+        }
+
+        .items {
+            padding: 20px;
+            background-color: white;
+            width: 250px;
+            height: 450px;
+            margin-top: 20px;
+            box-shadow: 0px 0px 10px 0px #A4A4A4;
+            box-sizing: border-box;
+            float: left;
+            margin: 20px;
+            position: relative;
+
+        }
+
+        .items:hover input[type="button"] {
+            display: block;
+        }
+
+        .items input[type="button"] {
+            display: none;
+            background: none;
+            background-color: #3ADF00;
+            width: 200px;
+            height: 50px;
+            border: none;
+            font-size: 20px;
+            color: white;
+            position: absolute;
+            top: 150px;
+            left: 25px;
+            cursor: pointer;
+        }
+
+        .items img {
+            width: 200px;
+
+        }
+
+        .items p {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+    <div id="item_div">
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    var root;
+    var conn;
+    //var imgLink = 'https://dynamic.zacdn.com/fHOscKp0Bn89AV7uZhD4MKZc1kc=/fit-in/236x345/filters:quality(95):fill(ffffff)/http://static.sg.zalora.net/p/laneige-1025-377546-1.jpg';
+    $(document).ready(function () {
+        root = $('#item_div');
+        conn = new ab.Session('ws://localhost:8080',
+                function () {//open
+                    conn.subscribe('kittensCategory', function (topic, data) {
+                        /**
+                         * [{"image":"http://sample.com","desc":"sample","price":62354}]
+                         */
+                        $.each(data, function (key, product) {
+                            if ($('#' + product.id).length) {
+                                $('#' + product.id).find('p:nth-child(4)').text(product.sku).hide().fadeIn(1000);;
+                                $('#' + product.id).find('p:nth-child(3)').text(formatPrice(product.price)).hide().fadeIn(1000);;
+                                $('#' + product.id).find('p:nth-child(2)').text(product.desc).hide().fadeIn(1000);;
+
+                            } else {
+                                if (product.desc) {
+                                    var div = $('<div/>').addClass("items").attr('id', product.id);
+                                    div.append($('<img>', {src: product.image}));
+                                    div.append($('<p/>').text(product.desc));
+                                    div.append($('<p/>').text(formatPrice(product.price)));
+                                    div.append($('<p/>').text(product.sku));
+                                    div.appendTo(root).hide().fadeIn(1000);
+                                    div.animate({backgroundColor: 'yellow'}, 'slow');
+                                }
+                            }
+                        });
+                    });
+                },
+                function () {//close
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+        );
+    });
+
+    function formatPrice(price) {
+        return price + ' $';
+    }
+</script>
